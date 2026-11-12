@@ -18,14 +18,15 @@ public class RapidoExpress implements ServicioDomicilio{
         return nombre;
     }
 
-
+    @Override
     public boolean aceptaRecorrido(double km) {
-        return false;
+        return km > 0 && km <= kmMaximo;
     }
 
-
+    @Override
     public double calcularCosto(double km) {
-        return 0;
+        if (!aceptaRecorrido(km)) return 0;
+        return tarifaBase + tarifaPorKm * km;
     }
 
     public void setNombre(String nombre) {
