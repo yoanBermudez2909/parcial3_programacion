@@ -5,14 +5,16 @@ public class PlatoFuerte extends Producto {
     private double pesoGramos;
     private TipoPreparacion tipo;
     private boolean coccionAprobada;
-    private CategoriaProducto categoriaProducto;
 
-    public PlatoFuerte(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, double pesoGramos, TipoPreparacion tipo, boolean coccionAprobada, int cantidadProducto,CategoriaProducto categoriaProducto) {
+
+
+    public PlatoFuerte(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, double pesoGramos, TipoPreparacion tipo, boolean coccionAprobada, int cantidadProducto){
+
         super(codigo, nombre, descripcion, precioBase, tiempoPreparacion, cantidadProducto);
         this.pesoGramos = pesoGramos;
         this.tipo = tipo;
         this.coccionAprobada = coccionAprobada;
-        this.categoriaProducto = categoriaProducto;
+
     }
 
     public double getPesoGramos() {
@@ -57,7 +59,10 @@ public class PlatoFuerte extends Producto {
 
     @Override
     public String toString() {
-        return "PlatoFuerte{" +
+        return "PlatoFuerte{ "+
+                " codigo=" + getCodigo() +
+                ", nombre=" + getNombre() +
+                ", precioVenta=" + calcularPrecioVenta() +
                 "pesoGramos=" + pesoGramos +
                 ", tipo=" + tipo +
                 ", coccionAprobada=" + coccionAprobada +

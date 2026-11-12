@@ -17,10 +17,6 @@ public class EntregaSegura implements ServicioDomicilio{
         this.kmMaximo = kmMaximo;
     }
 
-
-    public String nombreEmpresa() { return "EntregaSegura"; }
-
-
     public String getNombre() {
         return nombre;
     }
@@ -40,9 +36,6 @@ public class EntregaSegura implements ServicioDomicilio{
         return costo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     public double getTarifaBase() {
         return tarifaBase;

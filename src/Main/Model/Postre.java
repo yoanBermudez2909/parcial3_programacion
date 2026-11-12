@@ -5,9 +5,8 @@ public class Postre extends Producto {
     private double pesoGramos;
     private double temperaturaAlm;
     private boolean requiereRefrigerar;
-    private CategoriaProducto categoriaProducto;
 
-    public Postre(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, double pesoGramos, double temperaturaAlm, boolean requiereRefrigerar, int cantidadProducto, CategoriaProducto categoriaProducto) {
+    public Postre(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, double pesoGramos, double temperaturaAlm, boolean requiereRefrigerar, int cantidadProducto) {
         super(codigo, nombre, descripcion, precioBase, tiempoPreparacion, cantidadProducto);
         this.pesoGramos = pesoGramos;
         this.temperaturaAlm = temperaturaAlm;
@@ -69,6 +68,10 @@ public class Postre extends Producto {
     @Override
     public String toString() {
         return "Postre{" +
+                "codigo=" + getCodigo() +
+                ", nombre=" + getNombre() +
+                ", precioVenta=" + calcularPrecioVenta() +
+                ", volumenMl=" +
                 "pesoGramos=" + pesoGramos +
                 ", temperaturaAlm=" + temperaturaAlm +
                 ", requiereRefrigerar=" + requiereRefrigerar +

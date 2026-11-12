@@ -13,8 +13,6 @@ public class RapidoExpress implements ServicioDomicilio{
         this.tarifaPorKm = tarifaPorKm;
         this.kmMaximo = kmMaximo;
     }
-    public String nombreEmpresa() { return "RápidoExpress"; }
-
     public String getNombre() {
         return nombre;
     }
@@ -30,9 +28,6 @@ public class RapidoExpress implements ServicioDomicilio{
         return tarifaBase + tarifaPorKm * km;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 
     public double getTarifaBase() {
         return tarifaBase;

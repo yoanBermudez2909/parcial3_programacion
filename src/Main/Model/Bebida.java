@@ -6,15 +6,14 @@ public class Bebida extends Producto {
     private double temperatura;
     private boolean esFria;
     private boolean prepEspecial;
-    private CategoriaProducto categoriaProducto;
 
-    public Bebida(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, int volumenMl, double temperatura, boolean esFria, boolean prepEspecial, int cantidadProducto, CategoriaProducto categoriaProducto) {
+
+    public Bebida(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, int volumenMl, double temperatura, boolean esFria, boolean prepEspecial, int cantidadProducto) {
         super(codigo, nombre, descripcion, precioBase, tiempoPreparacion, cantidadProducto) ;
         this.volumenMl = volumenMl;
         this.temperatura = temperatura;
         this.esFria = esFria;
         this.prepEspecial = prepEspecial;
-        this.categoriaProducto = categoriaProducto;
     }
 
 
@@ -81,6 +80,9 @@ public class Bebida extends Producto {
     @Override
     public String toString() {
         return "Bebida{" +
+                "codigo=" + getCodigo() +
+                ", nombre=" + getNombre() +
+                ", precioVenta=" + calcularPrecioVenta() +
                 "volumenMl=" + volumenMl +
                 ", temperatura=" + temperatura +
                 ", esFria=" + esFria +

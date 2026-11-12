@@ -17,17 +17,14 @@ public class Pedido {
     private List<DetallePedido> listDetalles;
     private ServicioDomicilio servicio;
 
-    public Pedido(String codigo, LocalDate fecha, ModalidadEntrega modalidad,
-                  Cliente cliente, EstadoPedido estado,
-                  double distancia, ServicioDomicilio servicio) {
-
+    public Pedido(String codigo, LocalDate fecha, ModalidadEntrega modalidad, Cliente cliente) {
         this.codigo = codigo;
         this.fecha = fecha;
         this.modalidad = modalidad;
         this.cliente = cliente;
-        this.estado = estado;
-        this.distancia = distancia;
-        this.servicio = servicio;
+        this.estado = EstadoPedido.PENDIENTE;
+        this.distancia = 0;
+        this.servicio = null;
         this.domicilio = null;
         this.listDetalles = new ArrayList<>();
     }
@@ -101,76 +98,69 @@ public class Pedido {
         return true;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public boolean agregarDetalle(Producto producto, int cantidad) {
+        if (!puedeModificarse()) {
+            return false;
+        }
+        if (producto == null || cantidad <= 0) {
+            return false;
+        }
+        if (!producto.cumpleCalidad()) {
+            return false;
+        }
+        DetallePedido existente = buscarDetalle(producto.getCodigo());
+        int total = (existente != null) ? existente.cantidad() + cantidad : cantidad;
+        if (!producto.hayExistencias(total)) {
+            return false;
+        }
+        if (existente != null) {
+            listDetalles.set(listDetalles.indexOf(existente), new DetallePedido(producto, total));
+        } else {
+            listDetalles.add(new DetallePedido(producto, cantidad));
+        }
+        return true;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public boolean confirmar() {
+        if (estado != EstadoPedido.PENDIENTE) {
+            return false;
+        }
+        if (listDetalles.isEmpty()) {
+            return false;
+        }
+        if (!verificarCalidad()) {
+            return false;
+        }
+        for (DetallePedido detalle : listDetalles) {
+            if (!detalle.producto().hayExistencias(detalle.cantidad())) {
+                return false;
+            }
+        }
+        if (modalidad == ModalidadEntrega.DOMICILIO) {
+            if (domicilio == null || !domicilio.aceptado()) {
+                return false;
+            }
+        }
+        for (DetallePedido detalle : listDetalles) {
+            detalle.producto().descontarExistencias(detalle.cantidad());
+        }
+        estado = EstadoPedido.CONFIRMADO;
+        return true;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
+    public boolean asignarDomicilio(ServicioDomicilio servicio, double distancia) {
+        if (!puedeModificarse()) {
+            return false;
+        }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
-    public ModalidadEntrega getModalidad() {
-        return modalidad;
-    }
-
-    public void setModalidad(ModalidadEntrega modalidad) {
-        this.modalidad = modalidad;
-    }
-
-    public EstadoPedido getEstado() {
-        return estado;
-    }
-
-    public void setEstado(EstadoPedido estado) {
-        this.estado = estado;
-    }
-
-    public double getDistancia() {
-        return distancia;
-    }
-
-    public void setDistancia(double distancia) {
-        this.distancia = distancia;
-    }
-
-    public List<DetallePedido> getListDetalles() {
-        return listDetalles;
-    }
-
-    public void setListDetalles(List<DetallePedido> listDetalles) {
-        this.listDetalles = listDetalles;
-    }
-
-    public ServicioDomicilio getServicio() {
-        return servicio;
-    }
-
-    public void setServicio(ServicioDomicilio servicio) {
+        if (modalidad != ModalidadEntrega.DOMICILIO || servicio == null) {
+            return false;
+        }
         this.servicio = servicio;
-    }
+        this.distancia = distancia;
+        this.domicilio = servicio.solicitarServicio(distancia);
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public ResultadoDomicilio getDomicilio() {
-        return domicilio;
-    }
-
-    public void setDomicilio(ResultadoDomicilio domicilio) {
-        this.domicilio = domicilio;
+        return domicilio.aceptado();
     }
 
     public double calcularCostoDomicilio() {
@@ -229,6 +219,41 @@ public class Pedido {
                 + " | Total: $" + calcularTotal();
     }
 
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public ModalidadEntrega getModalidad() {
+        return modalidad;
+    }
+
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+
+    public List<DetallePedido> getListDetalles() {
+        return new ArrayList<>(listDetalles);
+    }
+
+    public ServicioDomicilio getServicio() {
+        return servicio;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public ResultadoDomicilio getDomicilio() {
+        return domicilio;
+    }
     @Override
     public String toString() {
         return "Pedido{" +
@@ -237,7 +262,7 @@ public class Pedido {
                 ", modalidad=" + modalidad +
                 ", estado=" + estado +
                 ", distancia=" + distancia +
-                ", cliente=" + cliente +
+                ", cliente=" + (cliente != null ? cliente.getDocumento() : null) +
                 ", listDetalles=" + listDetalles +
                 ", servicio=" + servicio +
                 '}';

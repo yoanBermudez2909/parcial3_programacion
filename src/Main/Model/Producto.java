@@ -12,7 +12,6 @@ public abstract class Producto {
     private int tiempoPreparacion;
     private int cantidadProducto;
 
-    private List<DetallePedido> listPedidos;
 
     public Producto(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, int cantidadProducto) {
         this.codigo = codigo;
@@ -21,9 +20,15 @@ public abstract class Producto {
         this.precioBase = precioBase;
         this.tiempoPreparacion = tiempoPreparacion;
         this.cantidadProducto = cantidadProducto;
-        this.listPedidos = new ArrayList<>();
     }
 
+    public boolean datosValidos() {
+        return codigo != null && !codigo.isBlank()
+                && nombre != null && !nombre.isBlank()
+                && precioBase > 0
+                && tiempoPreparacion > 0
+                && cantidadProducto >= 0;
+    }
 
     public abstract double calcularPrecioVenta();
 
@@ -49,13 +54,11 @@ public abstract class Producto {
         return cantidad > 0 && cantidadProducto >= cantidad;
     }
 
+
     public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
 
     public String getNombre() {
         return nombre;
@@ -88,15 +91,7 @@ public abstract class Producto {
     public void setTiempoPreparacion(int tiempoPreparacion) {
         this.tiempoPreparacion = tiempoPreparacion;
     }
-
-    public List<DetallePedido> getListPedidos() {
-        return listPedidos;
-    }
-
-    public void setListPedidos(List<DetallePedido> listPedidos) {
-        this.listPedidos = listPedidos;
-    }
-
+    public int getCantidadProducto() { return cantidadProducto; }
 
 
     @Override
@@ -107,6 +102,7 @@ public abstract class Producto {
                 ", descripcion='" + descripcion + '\'' +
                 ", precioBase=" + precioBase +
                 ", tiempoPreparacion=" + tiempoPreparacion +
+                ", cantidadProducto=" + cantidadProducto +
                 '}';
     }
 }

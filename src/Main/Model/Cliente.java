@@ -12,12 +12,13 @@ public class Cliente {
 
     private List<Pedido> listPedidosCliente;
 
-    public Cliente(String documento, String nombreCompleto, String telefono, String correo, String direccion, List<Pedido> listPedidosCliente) {
+    public Cliente(String documento, String nombreCompleto, String telefono, String correo, String direccion) {
         this.documento = documento;
         this.nombreCompleto = nombreCompleto;
         this.telefono = telefono;
         this.correo = correo;
         this.direccion = direccion;
+
         this.listPedidosCliente = new ArrayList<>();
     }
 
@@ -46,9 +47,7 @@ public class Cliente {
         return documento;
     }
 
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
+
 
     public String getNombreCompleto() {
         return nombreCompleto;
@@ -83,12 +82,9 @@ public class Cliente {
     }
 
     public List<Pedido> getListPedidosCliente() {
-        return listPedidosCliente;
+        return new ArrayList<>(listPedidosCliente);
     }
 
-    public void setListPedidosCliente(List<Pedido> listPedidosCliente) {
-        this.listPedidosCliente = listPedidosCliente;
-    }
 
 
 
