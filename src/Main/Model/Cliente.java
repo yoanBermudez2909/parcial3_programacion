@@ -28,6 +28,16 @@ public class Cliente {
         return false;
     }
 
+    public boolean agregarPedido(Pedido pedido) {
+        if (pedido == null) return false;
+        if (pedido.getCliente() != this) return false;
+        if (contienePedido(pedido.getCodigo())) return false;
+        if (pedido.getEstado() != EstadoPedido.CONFIRMADO
+                && pedido.getEstado() != EstadoPedido.ENTREGADO) return false;
+        listPedidosCliente.add(pedido);
+        return true;
+    }
+
     public List<Pedido> consultarHistorial() {
         return new ArrayList<>(listPedidosCliente);
     }
@@ -79,6 +89,9 @@ public class Cliente {
     public void setListPedidosCliente(List<Pedido> listPedidosCliente) {
         this.listPedidosCliente = listPedidosCliente;
     }
+
+
+
 
     @Override
     public String toString() {

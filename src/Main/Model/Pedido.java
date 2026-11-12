@@ -4,19 +4,23 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pedido{
+public class Pedido {
 
     private String codigo;
     private LocalDate fecha;
     private ModalidadEntrega modalidad;
     private EstadoPedido estado;
     private double distancia;
-    private  Cliente cliente;
+    private Cliente cliente;
+    private ResultadoDomicilio domicilio;
 
     private List<DetallePedido> listDetalles;
     private ServicioDomicilio servicio;
 
-    public Pedido(String codigo, LocalDate fecha, ModalidadEntrega modalidad, Cliente cliente, EstadoPedido estado, double distancia, ServicioDomicilio servicio) {
+    public Pedido(String codigo, LocalDate fecha, ModalidadEntrega modalidad,
+                  Cliente cliente, EstadoPedido estado,
+                  double distancia, ServicioDomicilio servicio) {
+
         this.codigo = codigo;
         this.fecha = fecha;
         this.modalidad = modalidad;
@@ -24,33 +28,34 @@ public class Pedido{
         this.estado = estado;
         this.distancia = distancia;
         this.servicio = servicio;
-
+        this.domicilio = null;
         this.listDetalles = new ArrayList<>();
-
     }
 
-            private boolean puedeModificarse(){
-            boolean bandera = false;
-            if(estado == EstadoPedido.PENDIENTE){
-                bandera = true;
+    private boolean puedeModificarse() {
+        boolean bandera = false;
 
-            }
+        if(estado == EstadoPedido.PENDIENTE) {
+            bandera = true;
+        }
+
         return bandera;
     }
 
     public DetallePedido buscarDetalle(String codigoProducto) {
         for (DetallePedido d : listDetalles) {
-            if (d.producto().getCodigo().equals(codigoProducto)) return d;
+            if (d.producto().getCodigo().equals(codigoProducto)) {
+                return d;
+            }
         }
         return null;
     }
 
-
-
     public boolean eliminarDetalle(String codigoProducto) {
-        if(puedeModificarse() == true){
+        if (puedeModificarse()) {
             DetallePedido detallePedido = buscarDetalle(codigoProducto);
-            if (detallePedido != null){
+
+            if (detallePedido != null) {
                 listDetalles.remove(detallePedido);
                 return true;
             }
@@ -59,41 +64,42 @@ public class Pedido{
     }
 
     public boolean actualizarCantidad(String codigoProducto, int nuevaCantidad) {
-        if(!puedeModificarse()) {
+
+        if (!puedeModificarse()) {
             return false;
         }
-        if(nuevaCantidad <= 0) {
+
+        if (nuevaCantidad <= 0) {
             return false;
         }
+
         DetallePedido detalle = buscarDetalle(codigoProducto);
-        if(detalle == null) {
+
+        if (detalle == null) {
             return false;
         }
-        if(!detalle.producto().hayExistencias(nuevaCantidad)) {
+
+        if (!detalle.producto().hayExistencias(nuevaCantidad)) {
             return false;
         }
+
         listDetalles.set(
                 listDetalles.indexOf(detalle),
-                new DetallePedido(detalle.producto(), nuevaCantidad, cliente));
+                new DetallePedido(detalle.producto(), nuevaCantidad));
+
         return true;
     }
 
-    // [43/60] Pedido.verificarCalidad() — DEPENDIENTE — EN DIAGRAMA
-    // DATOS: detalles
-    // OBJETIVO: true si TODOS los productos del pedido cumplen calidad.
-    // PISTAS: recorre detalles; si alguno tiene !producto().cumpleCalidad(), retorna false. Un pedido vacío devuelve true
-    //         (la regla "sin detalles no se confirma" se valida en [46]).
-    // ◄ USA: Producto.cumpleCalidad ([07]/[10]/[13])
     public boolean verificarCalidad() {
-        for(DetallePedido det:getListDetalles()){
-            if(!det.producto().cumpleCalidad()){
+
+        for (DetallePedido det : getListDetalles()) {
+            if (!det.producto().cumpleCalidad()) {
                 return false;
+            }
         }
-        }
+
         return true;
     }
-
-
 
     public String getCodigo() {
         return codigo;
@@ -157,6 +163,70 @@ public class Pedido{
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public ResultadoDomicilio getDomicilio() {
+        return domicilio;
+    }
+
+    public void setDomicilio(ResultadoDomicilio domicilio) {
+        this.domicilio = domicilio;
+    }
+
+    public double calcularCostoDomicilio() {
+
+        if (modalidad != ModalidadEntrega.DOMICILIO || domicilio == null) {
+            return 0;
+        }
+
+        return domicilio.costo();
+    }
+
+    public boolean entregar() {
+
+        if (estado != EstadoPedido.CONFIRMADO) {
+            return false;
+        }
+
+        estado = EstadoPedido.ENTREGADO;
+        return true;
+    }
+
+    public boolean cancelar() {
+
+        if (estado != EstadoPedido.PENDIENTE) {
+            return false;
+        }
+
+        estado = EstadoPedido.CANCELADO;
+        return true;
+    }
+
+    public boolean contabilizaComoIngreso() {
+        return estado == EstadoPedido.CONFIRMADO
+                || estado == EstadoPedido.ENTREGADO;
+    }
+
+    public double calcularTotalProductos() {
+
+        double total = 0;
+
+        for (DetallePedido d : listDetalles) {
+            total += d.calcularSubTotal();
+        }
+
+        return total;
+    }
+
+    public double calcularTotal() {
+        return calcularTotalProductos() + calcularCostoDomicilio();
+    }
+
+    public String resumen() {
+        return "Pedido " + codigo
+                + " | Fecha: " + fecha
+                + " | Estado: " + estado
+                + " | Total: $" + calcularTotal();
     }
 
     @Override

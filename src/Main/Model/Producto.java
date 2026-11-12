@@ -31,7 +31,7 @@ public abstract class Producto {
     public abstract boolean cumpleCalidad();
 
 
-    public abstract String obtenerCategoria();
+    public abstract CategoriaProducto obtenerCategoria();
 
     public boolean descontarExistencias(int cantidad) {
         if (!hayExistencias(cantidad)) return false;
@@ -97,6 +97,8 @@ public abstract class Producto {
         this.listPedidos = listPedidos;
     }
 
+
+
     @Override
     public String toString() {
         return "Producto{" +
@@ -105,7 +107,6 @@ public abstract class Producto {
                 ", descripcion='" + descripcion + '\'' +
                 ", precioBase=" + precioBase +
                 ", tiempoPreparacion=" + tiempoPreparacion +
-                ", listPedidos=" + listPedidos +
                 '}';
     }
 }

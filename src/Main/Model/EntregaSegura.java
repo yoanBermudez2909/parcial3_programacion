@@ -25,14 +25,19 @@ public class EntregaSegura implements ServicioDomicilio{
         return nombre;
     }
 
-
+    @Override
     public boolean aceptaRecorrido(double km) {
-        return false;
+        return km > 0 && km <= kmMaximo;
     }
 
-
+    @Override
     public double calcularCosto(double km) {
-        return 0;
+        if (!aceptaRecorrido(km)) return 0;
+        double costo = tarifaBase + tarifaPorKm * km;
+        if (km > umbralRecargoKm) {
+            costo += recargo;
+        }
+        return costo;
     }
 
     public void setNombre(String nombre) {
