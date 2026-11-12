@@ -69,6 +69,27 @@ public class Cliente {
         this.listPedidosCliente = listPedidosCliente;
     }
 
+    public boolean contienePedido(String codigoPedido) {
+        for (Pedido p : listPedidosCliente) {
+            if (p.getCodigo().equals(codigoPedido)) return true;
+        }
+        return false;
+    }
+
+    public List<Pedido> consultarHistorial() {
+        return new ArrayList<>(listPedidosCliente);
+    }
+
+    public boolean agregarPedido(Pedido pedido) {
+        if (pedido == null) return false;
+        if (pedido.getCliente() != this) return false;
+        if (contienePedido(pedido.getCodigo())) return false;
+        if (pedido.getEstado() != EstadoPedido.CONFIRMADO
+                && pedido.getEstado() != EstadoPedido.ENTREGADO) return false;
+        listPedidosCliente.add(pedido);
+        return true;
+    }
+
     @Override
     public String toString() {
         return "Cliente{" +
