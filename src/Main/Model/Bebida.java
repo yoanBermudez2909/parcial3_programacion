@@ -1,3 +1,4 @@
+
 package Main.Model;
 
 public class Bebida extends Producto {
@@ -7,15 +8,26 @@ public class Bebida extends Producto {
     private boolean esFria;
     private boolean prepEspecial;
 
-
+    /**
+     * Metodo constructor de la clase Bebida
+     * @param codigo de la bebida
+     * @param nombre de la bebida
+     * @param descripcion de la bebida
+     * @param precioBase de la bebida
+     * @param tiempoPreparacion de la bebida
+     * @param volumenMl de la bebida
+     * @param temperatura de la bebida
+     * @param esFria indica si la bebida es fria
+     * @param prepEspecial indica si requiere preparacion especial
+     * @param cantidadProducto disponible de la bebida
+     */
     public Bebida(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, int volumenMl, double temperatura, boolean esFria, boolean prepEspecial, int cantidadProducto) {
-        super(codigo, nombre, descripcion, precioBase, tiempoPreparacion, cantidadProducto) ;
+        super(codigo, nombre, descripcion, precioBase, tiempoPreparacion, cantidadProducto);
         this.volumenMl = volumenMl;
         this.temperatura = temperatura;
         this.esFria = esFria;
         this.prepEspecial = prepEspecial;
     }
-
 
     public int getVolumenMl() {
         return volumenMl;
@@ -49,8 +61,10 @@ public class Bebida extends Producto {
         this.prepEspecial = prepEspecial;
     }
 
-
-
+    /**
+     * Metodo que permite calcular el precio de venta de la bebida
+     * @return precio de venta de la bebida
+     */
     @Override
     public double calcularPrecioVenta() {
         double precio = getPrecioBase() * 1.10;
@@ -60,6 +74,10 @@ public class Bebida extends Producto {
         return precio;
     }
 
+    /**
+     * Metodo que permite verificar si la bebida cumple con los parametros de calidad
+     * @return true si la bebida cumple con los parametros de calidad, false en caso contrario
+     */
     @Override
     public boolean cumpleCalidad() {
         boolean volumenOk = volumenMl >= 150 && volumenMl <= 1500;
@@ -72,6 +90,10 @@ public class Bebida extends Producto {
         return volumenOk && temperaturaOk;
     }
 
+    /**
+     * Metodo que permite obtener la categoria de la bebida
+     * @return categoria BEBIDA
+     */
     @Override
     public CategoriaProducto obtenerCategoria() {
         return CategoriaProducto.BEBIDA;

@@ -8,13 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-
-
-
     private static final String TITULO = "El Buen Comer";
-
-
-
     private static final String MENU_PRINCIPAL = """
             MENÚ PRINCIPAL
  

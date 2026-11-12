@@ -1,6 +1,7 @@
+
 package Main.Model;
 
-public class EntregaSegura implements ServicioDomicilio{
+public class EntregaSegura implements ServicioDomicilio {
     private String nombre;
     private double tarifaBase;
     private double tarifaPorKm;
@@ -8,6 +9,15 @@ public class EntregaSegura implements ServicioDomicilio{
     private int umbralRecargoKm;
     private int kmMaximo;
 
+    /**
+     * Metodo constructor de la clase EntregaSegura
+     * @param nombre del servicio de domicilio
+     * @param tarifaBase del servicio
+     * @param tarifaPorKm del servicio
+     * @param recargo adicional del servicio
+     * @param umbralRecargoKm para aplicar el recargo
+     * @param kmMaximo permitidos para el recorrido
+     */
     public EntregaSegura(String nombre, double tarifaBase, double tarifaPorKm, double recargo, int umbralRecargoKm, int kmMaximo) {
         this.nombre = nombre;
         this.tarifaBase = tarifaBase;
@@ -21,11 +31,21 @@ public class EntregaSegura implements ServicioDomicilio{
         return nombre;
     }
 
+    /**
+     * Metodo que permite verificar si el servicio acepta el recorrido solicitado
+     * @param km distancia del recorrido en kilometros
+     * @return true si el recorrido es valido, false en caso contrario
+     */
     @Override
     public boolean aceptaRecorrido(double km) {
         return km > 0 && km <= kmMaximo;
     }
 
+    /**
+     * Metodo que permite calcular el costo del servicio de domicilio
+     * @param km distancia del recorrido en kilometros
+     * @return costo total del servicio o 0 si el recorrido no es valido
+     */
     @Override
     public double calcularCosto(double km) {
         if (!aceptaRecorrido(km)) return 0;
@@ -35,7 +55,6 @@ public class EntregaSegura implements ServicioDomicilio{
         }
         return costo;
     }
-
 
     public double getTarifaBase() {
         return tarifaBase;

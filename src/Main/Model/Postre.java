@@ -1,3 +1,4 @@
+
 package Main.Model;
 
 public class Postre extends Producto {
@@ -6,6 +7,19 @@ public class Postre extends Producto {
     private double temperaturaAlm;
     private boolean requiereRefrigerar;
 
+    /**
+     * Crea un postre con sus características generales y condiciones de almacenamiento.
+     *
+     * @param codigo Código identificador del postre.
+     * @param nombre Nombre del postre.
+     * @param descripcion Descripción del postre.
+     * @param precioBase Precio base del postre.
+     * @param tiempoPreparacion Tiempo necesario para preparar el postre.
+     * @param pesoGramos Peso del postre en gramos.
+     * @param temperaturaAlm Temperatura de almacenamiento del postre.
+     * @param requiereRefrigerar Indica si el postre necesita refrigeración.
+     * @param cantidadProducto Cantidad disponible del postre.
+     */
     public Postre(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, double pesoGramos, double temperaturaAlm, boolean requiereRefrigerar, int cantidadProducto) {
         super(codigo, nombre, descripcion, precioBase, tiempoPreparacion, cantidadProducto);
         this.pesoGramos = pesoGramos;
@@ -13,6 +27,12 @@ public class Postre extends Producto {
         this.requiereRefrigerar = requiereRefrigerar;
     }
 
+    /**
+     * Calcula el precio de venta del postre aplicando un incremento del 15%.
+     * Si requiere refrigeración, agrega un incremento adicional del 5%.
+     *
+     * @return Precio de venta calculado del postre.
+     */
     @Override
     public double calcularPrecioVenta() {
         double precio = getPrecioBase() * 1.15;
@@ -22,6 +42,13 @@ public class Postre extends Producto {
         return precio;
     }
 
+    /**
+     * Verifica que el peso y la temperatura de almacenamiento del postre
+     * se encuentren dentro de los rangos permitidos según sus condiciones
+     * de refrigeración.
+     *
+     * @return true si el peso y la temperatura cumplen las condiciones de calidad; false en caso contrario.
+     */
     @Override
     public boolean cumpleCalidad() {
         boolean pesoOk = pesoGramos >= 80 && pesoGramos <= 500;
@@ -34,6 +61,11 @@ public class Postre extends Producto {
         return pesoOk && temperaturaOk;
     }
 
+    /**
+     * Obtiene la categoría correspondiente al producto.
+     *
+     * @return Categoría POSTRE.
+     */
     @Override
     public CategoriaProducto obtenerCategoria() {
         return CategoriaProducto.POSTRE;
@@ -62,8 +94,6 @@ public class Postre extends Producto {
     public void setRequiereRefrigerar(boolean requiereRefrigerar) {
         this.requiereRefrigerar = requiereRefrigerar;
     }
-
-
 
     @Override
     public String toString() {
