@@ -1,6 +1,6 @@
 package Main.Model;
 
-public class EntregaSegura {
+public class EntregaSegura implements ServicioDomicilio{
     private String nombre;
     private double tarifaBase;
     private double tarifaPorKm;
@@ -19,6 +19,16 @@ public class EntregaSegura {
 
     public String getNombre() {
         return nombre;
+    }
+
+
+    public boolean aceptaRecorrido(double km) {
+        return false;
+    }
+
+
+    public double calcularCosto(double km) {
+        return 0;
     }
 
     public void setNombre(String nombre) {

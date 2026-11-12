@@ -6,7 +6,8 @@ public class Postre extends Producto {
     private double temperaturaAlm;
     private boolean requiereRefrigerar;
 
-    public Postre(double pesoGramos, double temperaturaAlm, boolean requiereRefrigerar) {
+    public Postre(String codigo, String nombre, String descripcion, double precioBase, int tiempoPreparacion, double pesoGramos, double temperaturaAlm, boolean requiereRefrigerar, int cantidadProducto) {
+        super(codigo, nombre, descripcion, precioBase, tiempoPreparacion, cantidadProducto);
         this.pesoGramos = pesoGramos;
         this.temperaturaAlm = temperaturaAlm;
         this.requiereRefrigerar = requiereRefrigerar;

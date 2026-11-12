@@ -1,12 +1,13 @@
 package Main.Model;
 
-public class RapidoExpress {
+public class RapidoExpress implements ServicioDomicilio{
     private String nombre;
     private double tarifaBase;
     private double tarifaPorKm;
     private int kmMaximo;
 
     public RapidoExpress(String nombre, double tarifaBase, double tarifaPorKm, int kmMaximo) {
+
         this.nombre = nombre;
         this.tarifaBase = tarifaBase;
         this.tarifaPorKm = tarifaPorKm;
@@ -15,6 +16,16 @@ public class RapidoExpress {
 
     public String getNombre() {
         return nombre;
+    }
+
+
+    public boolean aceptaRecorrido(double km) {
+        return false;
+    }
+
+
+    public double calcularCosto(double km) {
+        return 0;
     }
 
     public void setNombre(String nombre) {
