@@ -117,6 +117,14 @@ public class Pedido{
         }
         return total;
     }
+    public double calcularTotal() {
+        return calcularTotalProductos() + calcularCostoDomicilio();
+    }
+
+    public String resumen() {
+        return "Pedido " + codigo + " | Fecha: " + fecha + " | Estado: " + estado
+                + " | Total: $" + calcularTotal();
+    }
 
     @Override
     public String toString() {
