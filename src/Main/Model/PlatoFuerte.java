@@ -36,6 +36,22 @@ public class PlatoFuerte extends Producto {
     public void setCoccionAprobada(boolean coccionAprobada) {
         this.coccionAprobada = coccionAprobada;
     }
+    @Override
+    public double calcularPrecioVenta() {
+        return getPrecioBase() * 1.20;
+    }
+
+    @Override
+    public boolean cumpleCalidad() {
+        boolean pesoOk = pesoGramos >= 200 && pesoGramos <= 900;
+        boolean tiempoOk = getTiempoPreparacion() >= 10 && getTiempoPreparacion() <= 60;
+        return pesoOk && tiempoOk && coccionAprobada;
+    }
+
+    @Override
+    public CategoriaProducto obtenerCategoria() {
+        return CategoriaProducto.PLATO_FUERTE;
+    }
 
     @Override
     public String toString() {

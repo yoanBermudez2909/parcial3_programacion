@@ -20,6 +20,7 @@ public abstract class Producto {
         this.descripcion = descripcion;
         this.precioBase = precioBase;
         this.tiempoPreparacion = tiempoPreparacion;
+        this.cantidadProducto = cantidadProducto;
         this.listPedidos = new ArrayList<>();
     }
 
@@ -70,6 +71,9 @@ public abstract class Producto {
     public void setListPedidos(List<DetallePedido> listPedidos) {
         this.listPedidos = listPedidos;
     }
+    public abstract double calcularPrecioVenta();
+    public abstract boolean cumpleCalidad();
+    public abstract CategoriaProducto obtenerCategoria();
 
     @Override
     public String toString() {
@@ -79,7 +83,6 @@ public abstract class Producto {
                 ", descripcion='" + descripcion + '\'' +
                 ", precioBase=" + precioBase +
                 ", tiempoPreparacion=" + tiempoPreparacion +
-                ", listPedidos=" + listPedidos +
                 '}';
     }
 }

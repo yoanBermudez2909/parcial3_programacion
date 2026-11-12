@@ -38,6 +38,32 @@ public class Postre extends Producto {
     }
 
     @Override
+    public double calcularPrecioVenta() {
+        double precio = getPrecioBase() * 1.15;
+        if (requiereRefrigerar) {
+            precio += getPrecioBase() * 0.05;
+        }
+        return precio;
+    }
+
+    @Override
+    public boolean cumpleCalidad() {
+        boolean pesoOk = pesoGramos >= 80 && pesoGramos <= 500;
+        boolean temperaturaOk;
+        if (requiereRefrigerar) {
+            temperaturaOk = temperaturaAlm >= 0 && temperaturaAlm <= 6;
+        } else {
+            temperaturaOk = temperaturaAlm >= 15 && temperaturaAlm <= 30;
+        }
+        return pesoOk && temperaturaOk;
+    }
+
+    @Override
+    public CategoriaProducto obtenerCategoria() {
+        return CategoriaProducto.POSTRE;
+    }
+
+    @Override
     public String toString() {
         return "Postre{" +
                 "pesoGramos=" + pesoGramos +

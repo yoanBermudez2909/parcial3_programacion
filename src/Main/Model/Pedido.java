@@ -11,20 +11,20 @@ public class Pedido{
     private ModalidadEntrega modalidad;
     private EstadoPedido estado;
     private double distancia;
+    private Cliente cliente;
+    private ResultadoDomicilio domicilio;
 
     private List<DetallePedido> listDetalles;
     private ServicioDomicilio servicio;
 
-    public Pedido(String codigo, LocalDate fecha, ModalidadEntrega modalidad, EstadoPedido estado, double distancia, ServicioDomicilio servicio) {
+    public Pedido(String codigo, LocalDate fecha, Cliente cliente, ModalidadEntrega modalidad) {
         this.codigo = codigo;
         this.fecha = fecha;
+        this.cliente = cliente;
         this.modalidad = modalidad;
-        this.estado = estado;
-        this.distancia = distancia;
-        this.servicio = servicio;
-
+        this.estado = EstadoPedido.PENDIENTE;
+        this.distancia = 0;
         this.listDetalles = new ArrayList<>();
-
     }
 
     public String getCodigo() {
@@ -82,6 +82,12 @@ public class Pedido{
     public void setServicio(ServicioDomicilio servicio) {
         this.servicio = servicio;
     }
+
+    public Cliente getCliente() { return cliente; }
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
+
+    public ResultadoDomicilio getDomicilio() { return domicilio; }
+    public void setDomicilio(ResultadoDomicilio domicilio) { this.domicilio = domicilio; }
 
     @Override
     public String toString() {

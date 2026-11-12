@@ -48,6 +48,32 @@ public class Bebida extends Producto {
     }
 
     @Override
+    public double calcularPrecioVenta() {
+        double precio = getPrecioBase() * 1.10;
+        if (prepEspecial) {
+            precio += 3000;
+        }
+        return precio;
+    }
+
+    @Override
+    public boolean cumpleCalidad() {
+        boolean volumenOk = volumenMl >= 150 && volumenMl <= 1500;
+        boolean temperaturaOk;
+        if (esFria) {
+            temperaturaOk = temperatura >= 0 && temperatura <= 10;
+        } else {
+            temperaturaOk = temperatura >= 55 && temperatura <= 85;
+        }
+        return volumenOk && temperaturaOk;
+    }
+
+    @Override
+    public CategoriaProducto obtenerCategoria() {
+        return CategoriaProducto.BEBIDA;
+    }
+
+    @Override
     public String toString() {
         return "Bebida{" +
                 "volumenMl=" + volumenMl +
