@@ -17,6 +17,10 @@ public class EntregaSegura implements ServicioDomicilio{
         this.kmMaximo = kmMaximo;
     }
 
+
+    public String nombreEmpresa() { return "EntregaSegura"; }
+
+
     public String getNombre() {
         return nombre;
     }

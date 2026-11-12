@@ -21,6 +21,17 @@ public class Cliente {
         this.listPedidosCliente = new ArrayList<>();
     }
 
+    public boolean contienePedido(String codigo) {
+        for (Pedido p : listPedidosCliente) {
+            if (p.getCodigo().equals(codigo)) return true;
+        }
+        return false;
+    }
+
+    public List<Pedido> consultarHistorial() {
+        return new ArrayList<>(listPedidosCliente);
+    }
+
     public String getDocumento() {
         return documento;
     }

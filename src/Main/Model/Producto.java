@@ -20,7 +20,33 @@ public abstract class Producto {
         this.descripcion = descripcion;
         this.precioBase = precioBase;
         this.tiempoPreparacion = tiempoPreparacion;
+        this.cantidadProducto = cantidadProducto;
         this.listPedidos = new ArrayList<>();
+    }
+
+
+    public abstract double calcularPrecioVenta();
+
+
+    public abstract boolean cumpleCalidad();
+
+
+    public abstract String obtenerCategoria();
+
+    public boolean descontarExistencias(int cantidad) {
+        if (!hayExistencias(cantidad)) return false;
+        cantidadProducto -= cantidad;
+        return true;
+    }
+
+    public boolean actualizarExistencias(int nuevasExistencias) {
+        if (nuevasExistencias < 0) return false;
+        cantidadProducto = nuevasExistencias;
+        return true;
+    }
+
+    public boolean hayExistencias(int cantidad) {
+        return cantidad > 0 && cantidadProducto >= cantidad;
     }
 
     public String getCodigo() {

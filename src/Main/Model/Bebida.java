@@ -15,6 +15,21 @@ public class Bebida extends Producto {
         this.prepEspecial = prepEspecial;
     }
 
+
+    public double calcularPrecioVenta() {
+        return 0;
+    }
+
+    @Override
+    public boolean cumpleCalidad() {
+        return false;
+    }
+
+    @Override
+    public String obtenerCategoria() {
+        return "";
+    }
+
     public int getVolumenMl() {
         return volumenMl;
     }
@@ -46,6 +61,8 @@ public class Bebida extends Producto {
     public void setPrepEspecial(boolean prepEspecial) {
         this.prepEspecial = prepEspecial;
     }
+
+
 
     @Override
     public String toString() {
