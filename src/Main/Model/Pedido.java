@@ -89,6 +89,35 @@ public class Pedido{
     public ResultadoDomicilio getDomicilio() { return domicilio; }
     public void setDomicilio(ResultadoDomicilio domicilio) { this.domicilio = domicilio; }
 
+    public double calcularCostoDomicilio() {
+        if (modalidad != ModalidadEntrega.DOMICILIO || domicilio == null) return 0;
+        return domicilio.costo();
+    }
+
+    public boolean entregar() {
+        if (estado != EstadoPedido.CONFIRMADO) return false;
+        estado = EstadoPedido.ENTREGADO;
+        return true;
+    }
+
+    public boolean cancelar() {
+        if (estado != EstadoPedido.PENDIENTE) return false;
+        estado = EstadoPedido.CANCELADO;
+        return true;
+    }
+
+    public boolean contabilizaComoIngreso() {
+        return estado == EstadoPedido.CONFIRMADO || estado == EstadoPedido.ENTREGADO;
+    }
+
+    public double calcularTotalProductos() {
+        double total = 0;
+        for (DetallePedido d : listDetalles) {
+            total += d.calcularSubTotal();
+        }
+        return total;
+    }
+
     @Override
     public String toString() {
         return "Pedido{" +
